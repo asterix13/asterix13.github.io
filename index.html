@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name = "viewport" content="width=device-width, initial-scale=1.0">
+  <title> Cam live feed</title>
+</head>
+<body>
+<div  style="display: flex; flex-direction: column; align-content: center;"></div>
+<video id="video" style="width: 700px;" autoplay=""></video>
+<div id="snap" style="height: 150px; width: 150px; border-radius: 50%;
+cursor: pointer; font-family: 'Courier New', Courier, monospace;
+text-align: center; background-color: gainsboro; margin: 20px; font-size: 1.5em; 
+line-height: 150px;">Capture</div>
+<canvas id='canvas' width="640px"></canvas>
+
+<form method="post" target="http://192.168.0.101:8008/im_recv.php">
+  <input id="inp_img" name="img" type="hidden" value="">
+  <input id="bt_upload" type="submit" value="Upload">
+</form>
+
+<input id="btn_prepare" type="button" value="Prepare" onclick="prepareImg();" >
+ 
+
+<script type="text/javascript">
+  const video = document.getElementById('video');
+  const canvas= document.getElementById('canvas');
+  const snap = document.getElementById('snap');
+  const constraints = {
+    audio: false,
+    video: {
+      width:{min: 1024, ideal: 1280, max: 1920},
+      height:{min: 576, ideal: 720, max: 1080 }
+    }
+  }
+  async function startWebCam(){
+    try{
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      video.srcObject = stream;
+      window.stream = stream;
+    }
+    catch (e){
+      console.log(e.toString());
+    }
+  }
+  var context = canvas.getContext('2d');
+  snap.addEventListener('click', ()=> {
+    context.drawImage(video, 0, 0, 640, 640);
+  });
+  startWebCam();
+
+
+function prepareImg() {
+   var canvas = document.getElementById('canvas');
+   document.getElementById('inp_img').value = canvas.toDataURL();
+   console.log("ImagePrepared!");
+}
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+</body>
+
+
+</html>
