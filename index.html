@@ -70,7 +70,7 @@ function postCanvas(){
         
         $.ajax({
            type: "POST",
-           url: "192.168.0.101:8000/im_post.php",
+           url: "im_post.php",
            data: {
             imgBase64: dataURL
            }
@@ -78,10 +78,6 @@ function postCanvas(){
             console.log(o); 
       
     });
-        }
-
-
-
 
 
 
