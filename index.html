@@ -60,6 +60,26 @@ function prepareImg() {
 
 
 
+function postCanvas(){
+
+    let canvas = document.getElementById('canv');
+        let ctx = canvas.getContext('2d');
+        let imgdata = ctx.getImageData(0,0, canvas.width, canvas.height);
+        
+        let dataURL = canvas.toDataURL('image/png').split(';base64,')[1];
+        
+        $.ajax({
+           type: "POST",
+           url: "192.168.0.101:8000/im_post.php",
+           data: {
+            imgBase64: dataURL
+           }
+          }).done(function(o) {
+            console.log(o); 
+      
+    });
+
+
 
 
 
